@@ -2,14 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class Player : MonoBehaviour
+public class Player : MonoSingleton<Player>
 {
     
     public GameObject tj, rc, jb;
-    public bool Jumpable = false, dJump = true, tJump=false,tJumpActive=false, rocketingEnabler = false,a,w,d;
-    public static float GS = 1f;
-    public float GSdisplay,jumpDistance=1f;
+    public Rigidbody2D rb;
+    public Animator playerAnimator;
+    public TrailRenderer tr;
+    public bool Jumpable = false, dJump = true, tJump = false, tJumpActive = false, rocketingEnabler = false, a, w, d, canDash = true,isDashing = false;
+    
+    public float jumpDistance=1f,Hýz= 5,RocketSpeed,dashingPower = 5,dashingTime =0.2f , dashingCoolDown=2;
     public static float PlayersY;
+    private IEnumerator Dash()
+    {
+        canDash = false;
+        isDashing = true;
+        float originalGravity = rb.gravityScale;
+        rb.gravityScale = 0f;
+        rb.velocity = new Vector2(transform.localScale.x * -dashingPower, 0f);
+        playerAnimator.SetBool("Dashh", true);
+        tr.emitting = true;
+        yield return new WaitForSeconds(dashingTime);
+        tr.emitting = false;
+        rb.gravityScale = originalGravity;
+        isDashing = false;
+        rb.velocity = new Vector2(0, 0f);
+        playerAnimator.SetBool("Dashh", false);
+        yield return new WaitForSeconds(dashingCoolDown);
+        canDash = true;
+    }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -37,7 +58,7 @@ public class Player : MonoBehaviour
         if (collision.tag == "jBoost")
         {
             jumpBoost.active = true;
-            jumpDistance=1.25f;
+            jumpDistance=1.75f;
         }
         if (collision.tag == "bottom")
         {
@@ -54,77 +75,55 @@ public class Player : MonoBehaviour
             Jumpable = false;
         }
     }
-    void Start()
-    {
-        GS = 1f;
-    }
-    public void MoveD()
-    {
-        d = true;
-    }
-    public void MoveDEnd()
-    {
-        d = false;
-    }
-    public void MoveA()
-    {
-        a = true;
-    }
-    public void MoveAEnd()
-    {
-        a = false;
-    }
-    public void MoveW()
-    {
-        w = true;
-    }
-    public void MoveWEnd()
-    {
-        w = false;
-    }
+    
+   
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.LeftShift)&&canDash)
+        {
+            StartCoroutine(Dash());
+        }
         if (rocketingEnabler)
         {
-            transform.Translate(Vector2.up * Time.deltaTime*4f);
+            transform.Translate(Vector2.up * Time.deltaTime*RocketSpeed);
             GetComponent<Rigidbody2D>().gravityScale = 0f;
         }
         else
         {
-            GetComponent<Rigidbody2D>().gravityScale = GS;
+            GetComponent<Rigidbody2D>().gravityScale = 1;
         }
         PlayersY  = transform.position.y;
-        GSdisplay = GS;
-        GS = GS + Time.deltaTime/20;
+        
+       
         if (Input.GetKey("d") || Input.GetKey("left")|| d)
         {
-            transform.Translate(Vector2.right * Time.deltaTime * GS * 1f);
-            transform.localScale = new Vector3(-1f, 1f, 1f);
+            transform.Translate(Vector2.right * Time.deltaTime *  Hýz);
+           transform.localScale = new Vector3(-1f, 2f, 1f);
         }
         if (Input.GetKey("a") || Input.GetKey(KeyCode.RightArrow)|| a)
         {
-            transform.localScale = new Vector3(1f, 1f, 1f);
-            transform.Translate(Vector2.left * Time.deltaTime * GS * 1f);
+           transform.localScale = new Vector3(1f, 2f, 1f);
+            transform.Translate(Vector2.left * Time.deltaTime * Hýz );
         }
         if (Input.GetKeyDown("space")|| Input.GetKeyDown("w") || Input.GetKeyDown(KeyCode.UpArrow) || w)
         {
             if (Jumpable) 
             {
                 GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
-                GetComponent<Rigidbody2D>().AddForce(new Vector2(0, Mathf.Sqrt(9 * GS)*jumpDistance), ForceMode2D.Impulse);
+                GetComponent<Rigidbody2D>().AddForce(new Vector2(0, Hýz*jumpDistance), ForceMode2D.Impulse);
                 
             }
             else if (dJump && !rocketingEnabler)
             {
                 GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
-                GetComponent<Rigidbody2D>().AddForce(new Vector2(0, Mathf.Sqrt(9*GS)*jumpDistance), ForceMode2D.Impulse);
+                GetComponent<Rigidbody2D>().AddForce(new Vector2(0, Mathf.Sqrt(9*Hýz)*jumpDistance), ForceMode2D.Impulse);
                
                 dJump = false;
             }
             else if (tJump && !rocketingEnabler)
             {
                 GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
-                GetComponent<Rigidbody2D>().AddForce(new Vector2(0, Mathf.Sqrt(9 * GS)*jumpDistance), ForceMode2D.Impulse);
+                GetComponent<Rigidbody2D>().AddForce(new Vector2(0, Mathf.Sqrt(9 * Hýz)*jumpDistance), ForceMode2D.Impulse);
                 tJump = false;
                 
             }
@@ -133,9 +132,9 @@ public class Player : MonoBehaviour
     IEnumerator Rocketing()
     {
         GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
-        GS = GS + 5;
-        yield return new WaitForSeconds(3);
-        GS = GS - 5;
+        
+        yield return new WaitForSeconds(2);
+        
         rocketingEnabler = false;
         yield return null;
     }

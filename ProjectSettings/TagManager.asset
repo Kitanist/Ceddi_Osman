@@ -6,6 +6,8 @@ TagManager:
   tags:
   - jumpable
   - rocket
+  - tJump
+  - jBoost
   layers:
   - Default
   - TransparentFX
