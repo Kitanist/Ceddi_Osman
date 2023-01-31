@@ -9,6 +9,7 @@ TagManager:
   - tJump
   - jBoost
   - Boss
+  - finish
   layers:
   - Default
   - TransparentFX
