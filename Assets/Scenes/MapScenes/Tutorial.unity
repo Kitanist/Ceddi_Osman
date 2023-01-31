@@ -383,9 +383,10 @@ GameObject:
   - component: {fileID: 133966494}
   - component: {fileID: 133966497}
   - component: {fileID: 133966496}
+  - component: {fileID: 133966498}
   - component: {fileID: 133966495}
   m_Layer: 0
-  m_Name: Square (10)
+  m_Name: Finish
   m_TagString: finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -510,6 +511,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &133966498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133966493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57ffdbc7aca2bb04a9ed8f12b112d66b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &191590683
 GameObject:
   m_ObjectHideFlags: 0
@@ -1223,7 +1236,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5648628726925197502, guid: 4705453d21a65544ab5f29cab9eac5b0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -72.4
+      value: -13.5
       objectReference: {fileID: 0}
     - target: {fileID: 5648628726925197502, guid: 4705453d21a65544ab5f29cab9eac5b0, type: 3}
       propertyPath: m_LocalPosition.y
