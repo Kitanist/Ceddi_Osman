@@ -11,7 +11,7 @@ public class Player : MonoSingleton<Player>
     public TrailRenderer tr;
     public bool Jumpable = false, dJump = true, tJump = false, tJumpActive = false, rocketingEnabler = false, a, w, d, canDash = true,isDashing = false;
     
-    public float jumpDistance=1f,Hýz= 5,RocketSpeed,dashingPower = 5,dashingTime =0.2f , dashingCoolDown=2;
+    public float jumpDistance=1f,Hiz= 5,RocketSpeed,dashingPower = 5,dashingTime =0.2f , dashingCoolDown=2;
     public static float PlayersY;
     private IEnumerator Dash()
     {
@@ -97,33 +97,33 @@ public class Player : MonoSingleton<Player>
        
         if (Input.GetKey("d") || Input.GetKey("left")|| d)
         {
-            transform.Translate(Vector2.right * Time.deltaTime *  Hýz);
+            transform.Translate(Vector2.right * Time.deltaTime *  Hiz);
            transform.localScale = new Vector3(-1f, 2f, 1f);
         }
         if (Input.GetKey("a") || Input.GetKey(KeyCode.RightArrow)|| a)
         {
            transform.localScale = new Vector3(1f, 2f, 1f);
-            transform.Translate(Vector2.left * Time.deltaTime * Hýz );
+            transform.Translate(Vector2.left * Time.deltaTime * Hiz );
         }
         if (Input.GetKeyDown("space")|| Input.GetKeyDown("w") || Input.GetKeyDown(KeyCode.UpArrow) || w)
         {
             if (Jumpable) 
             {
                 GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
-                GetComponent<Rigidbody2D>().AddForce(new Vector2(0, Hýz*jumpDistance), ForceMode2D.Impulse);
+                GetComponent<Rigidbody2D>().AddForce(new Vector2(0, Hiz*jumpDistance), ForceMode2D.Impulse);
                 
             }
             else if (dJump && !rocketingEnabler)
             {
                 GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
-                GetComponent<Rigidbody2D>().AddForce(new Vector2(0, Mathf.Sqrt(9*Hýz)*jumpDistance), ForceMode2D.Impulse);
+                GetComponent<Rigidbody2D>().AddForce(new Vector2(0, Mathf.Sqrt(9*Hiz)*jumpDistance), ForceMode2D.Impulse);
                
                 dJump = false;
             }
             else if (tJump && !rocketingEnabler)
             {
                 GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
-                GetComponent<Rigidbody2D>().AddForce(new Vector2(0, Mathf.Sqrt(9 * Hýz)*jumpDistance), ForceMode2D.Impulse);
+                GetComponent<Rigidbody2D>().AddForce(new Vector2(0, Mathf.Sqrt(9 * Hiz)*jumpDistance), ForceMode2D.Impulse);
                 tJump = false;
                 
             }

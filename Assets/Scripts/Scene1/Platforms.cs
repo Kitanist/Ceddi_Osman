@@ -13,6 +13,6 @@ public class Platforms : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector2.down * Time.deltaTime * Player.Instance.Hýz * 0.6f);
+        transform.Translate(Vector2.down * Time.deltaTime * Player.Instance.Hiz * 0.6f);
     }
 }
