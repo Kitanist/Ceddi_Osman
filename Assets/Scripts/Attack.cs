@@ -32,7 +32,7 @@ public class Attack : MonoBehaviour
     }
     void AttackEnemy(float attackRange,int attackDamage)
     {
-
+        Debug.Log("AS");
         Collider[] hitEnemies = Physics.OverlapSphere(transform.position, attackRange);
         foreach (Collider enemy in hitEnemies)
         {

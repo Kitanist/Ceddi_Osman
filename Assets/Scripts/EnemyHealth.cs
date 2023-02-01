@@ -9,6 +9,7 @@ public class EnemyHealth : MonoBehaviour
     private void Awake()
     {
         currentHealth = startingHealth;
+        
     }
 
     public void TakeDamage(int damage)
