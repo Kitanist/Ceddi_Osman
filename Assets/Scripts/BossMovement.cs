@@ -19,6 +19,7 @@ public class BossMovement : MonoBehaviour
     bool topCanFire=true;
       bool canAttack=false;
    public bool sag = false, ust = false,canJump;
+    public Animator okan;
     #endregion
     [System.Obsolete]
 
@@ -97,8 +98,8 @@ public class BossMovement : MonoBehaviour
         topCanFire=true;
     }
     public void CasePlayer(){
-        
-        
+
+        okan.SetBool("yürü", true);
         // önce karakter ne tarafta öğren
         float targetX = Player.transform.position.x;
         float objectX = transform.position.x;
@@ -133,11 +134,13 @@ public class BossMovement : MonoBehaviour
         {
             if (ust)
             {
+                transform.localScale = new Vector3(0.5f, 0.5f, 1f);
                 //karakter sağda ve üstte
                 if (canJump)
                 {
                    GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 10));
                     //zıplama arenasında
+                    okan.SetBool("yürü", false);
                 }
                 transform.position += new Vector3(5*Time.deltaTime, 0, 0);
             }
@@ -150,10 +153,12 @@ public class BossMovement : MonoBehaviour
 
         } else if(ust)
     {
+            transform.localScale = new Vector3(-0.5f, 0.5f, 1f);
             if (canJump)
             {
                GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 10));
                 //Zıplama arenasında
+                okan.SetBool("yürü", false);
             }
             transform.position += new Vector3(-5 * Time.deltaTime, 0, 0);
             // karakter sağda değil ve üstte
@@ -173,11 +178,14 @@ public class BossMovement : MonoBehaviour
         foreach (Collider enemy in hitEnemies)
         {         
             enemy.GetComponent<EnemyHealth>().TakeDamage(attackDamage);
+            okan.SetBool("saldır", true);
         }
     }
 
     IEnumerator resetAtacks(){
+
         yield return new WaitForSeconds(3);
+        okan.SetBool("saldır", false);
     }
     #endregion
     private void OnTriggerEnter2D(Collider2D collision)

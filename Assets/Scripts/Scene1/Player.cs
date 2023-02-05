@@ -19,7 +19,7 @@ public class Player : MonoSingleton<Player>
         isDashing = true;
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
-        rb.velocity = new Vector2(transform.localScale.x * -dashingPower, 0f);
+        rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
         playerAnimator.SetBool("Dashh", true);
         tr.emitting = true;
         yield return new WaitForSeconds(dashingTime);
@@ -79,6 +79,10 @@ public class Player : MonoSingleton<Player>
    
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
         if (Input.GetKeyDown(KeyCode.LeftShift)&&canDash)
         {
             StartCoroutine(Dash());
@@ -86,6 +90,7 @@ public class Player : MonoSingleton<Player>
         if (rocketingEnabler)
         {
             transform.Translate(Vector2.up * Time.deltaTime*RocketSpeed);
+            
             GetComponent<Rigidbody2D>().gravityScale = 0f;
         }
         else
@@ -97,12 +102,18 @@ public class Player : MonoSingleton<Player>
        
         if (Input.GetKey("d") || Input.GetKey("left")|| d)
         {
+            playerAnimator.SetBool("walk", true);
+            Player.Instance.playerAnimator.SetBool("osmannormal", false);
+            Player.Instance.playerAnimator.SetBool("ýþýn", false);
             transform.Translate(Vector2.right * Time.deltaTime *  Hiz);
-           transform.localScale = new Vector3(-1f, 2f, 1f);
+           transform.localScale = new Vector3(1f, 1f, 1f);
         }
         if (Input.GetKey("a") || Input.GetKey(KeyCode.RightArrow)|| a)
         {
-           transform.localScale = new Vector3(1f, 2f, 1f);
+            playerAnimator.SetBool("walk", true);
+            Player.Instance.playerAnimator.SetBool("osmannormal", false);
+            Player.Instance.playerAnimator.SetBool("ýþýn", false);
+            transform.localScale = new Vector3(-1f, 1f, 1f);
             transform.Translate(Vector2.left * Time.deltaTime * Hiz );
         }
         if (Input.GetKeyDown("space")|| Input.GetKeyDown("w") || Input.GetKeyDown(KeyCode.UpArrow) || w)

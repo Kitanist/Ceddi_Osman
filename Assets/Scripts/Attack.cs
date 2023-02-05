@@ -6,12 +6,23 @@ public class Attack : MonoBehaviour
     public float attackRange = 1f;
     public int attackDamage = 10;
     public GameObject Bullet;
-    public bool canBullet;
+    public bool canBullet, a = true;
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             Debug.Log("SA");
+            if (a)
+            {
+                Player.Instance.playerAnimator.SetBool("osmannormal", true);
+                a = false;
+            }
+            else
+            {
+                Player.Instance.playerAnimator.SetBool("ýþýn", true);
+                a = true;
+            }
+            
             AttackEnemy(attackRange,attackDamage);
             if (canBullet)
             {

@@ -7,6 +7,7 @@ public class Top : MonoBehaviour
 {
    
     bool reset=true;
+    public GameObject gmj;
     public GameObject prefabBullet;
     public Transform bulletPoint;
     public float pushForce=5;
@@ -34,7 +35,7 @@ public class Top : MonoBehaviour
     public void Fire () {
 
       
-      GameObject bullet=Instantiate(prefabBullet,bulletPoint);
+      GameObject bullet=Instantiate(prefabBullet,bulletPoint.position,Quaternion.identity,gmj.transform);
 
        Vector3 Direction = (transform.position - GameManager.Instance.player.transform.position).normalized;
 
